@@ -14,26 +14,23 @@ def list_files(dir):
                 r.append(subdir + "/" + file)
     return r
 
-# source = '/home/abhishek/Desktop'
-source = '/home/abhishek/Desktop/dummy'
-destination = '/home/abhishek/Documents/sorted_directories'
+def clean_the_desktop(source, destination, All_files):
+    if not os.path.exists(destination):
+        os.makedirs(destination)
+    unique_folders = []
+    for f in All_files:
+        file_extension = f.split('.')[-1]
+        # print file_extension
+        if not file_extension in unique_folders and file_extension != 'desktop' :
+            unique_folders.append(file_extension)
+            path = destination + '/' + str(file_extension)
+            if not os.path.exists(path):
+                os.makedirs(path)
+        if file_extension!='desktop':
+            des = destination + '/' + file_extension
+            os.popen('cp '+ f + ' ' + des)
 
+source = '/home/abhishek/Desktop/vlc'
+destination = '/home/abhishek/Documents/sorted_directory'
 All_files = list_files(source)
-# print All_files
-# print '\n'
-
-if not os.path.exists(destination):
-    os.makedirs(destination)
-
-unique_folders = []
-
-for f in All_files:
-    file_extension = f.split('.')[-1]
-    if not file_extension in unique_folders:
-        unique_folders.append(file_extension)
-        path = destination + '/' + str(file_extension)
-        if not os.path.exists(path):
-            os.makedirs(path)
-    des = destination + '/' + file_extension
-    os.popen('cp '+ f + ' ' + des)
-    # print f.split('.')[-1]
+clean_the_desktop(source, destination, All_files)

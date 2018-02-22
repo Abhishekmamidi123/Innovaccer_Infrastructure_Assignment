@@ -21,7 +21,6 @@ def top_big_files(list_of_directories):
     for directory in list_of_directories:
         list_of_files = list_files(directory)
         # print list_of_files
-
         size_of_files = []
         for f in list_of_files:
             size_in_MB = get_size(f)/(1024.0*1024.0)
@@ -40,8 +39,8 @@ def print_top(N):
         print files_and_sizes[i][1], files_and_sizes[i][0]
 
 list_of_directories = ['/home/abhishek/Desktop', '/home/abhishek/Documents', '/home/abhishek/Downloads', '/home/abhishek/Music']
+
 files_and_sizes = top_big_files(list_of_directories)
+# print files_and_sizes
 
-print_top(10)
-
-
+print_top(4)
