@@ -1,7 +1,5 @@
 import os
 
-folders =  ['Downloads folder', 'Documents Folder', 'Movies folder', 'C drive', 'Edrive']
-
 def get_size(filename):
     st = os.stat(filename)
     return st.st_size
