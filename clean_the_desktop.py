@@ -19,16 +19,17 @@ def clean_the_desktop(source, destination, All_files):
         os.makedirs(destination)
     unique_folders = []
     for f in All_files:
-        file_extension = f.split('.')[-1]
-        # print file_extension
-        if not file_extension in unique_folders and file_extension != 'desktop' :
-            unique_folders.append(file_extension)
-            path = destination + '/' + str(file_extension)
-            if not os.path.exists(path):
-                os.makedirs(path)
-        if file_extension!='desktop':
-            des = destination + '/' + file_extension
-            os.popen('cp '+ f + ' ' + des)
+    	if len(f.split('/')[-1].split('.')) != 1:
+        	file_extension = f.split('.')[-1]
+        	# print file_extension
+        	if not file_extension in unique_folders and file_extension != 'desktop' :
+        	    unique_folders.append(file_extension)
+        	    path = destination + '/' + str(file_extension)
+        	    if not os.path.exists(path):
+        	        os.makedirs(path)
+        	if file_extension!='desktop':
+        	    des = destination + '/' + file_extension
+        	    os.popen('cp '+ f + ' ' + des)
 
 source = '/home/abhishek/Desktop/vlc'
 destination = '/home/abhishek/Documents/sorted_directory'

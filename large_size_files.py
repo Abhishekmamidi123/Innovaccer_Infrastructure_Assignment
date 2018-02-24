@@ -34,8 +34,6 @@ def top_big_files(list_of_directories):
     length = len(files_and_sizes)
     return files_and_sizes[::-1]
 
-
-
 def print_top(N):
     for i in range(N):
         print files_and_sizes[i][1], files_and_sizes[i][0]

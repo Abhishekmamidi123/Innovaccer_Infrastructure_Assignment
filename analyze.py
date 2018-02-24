@@ -1,4 +1,5 @@
 import os
+import humanize
 
 def get_size(filename):
     st = os.stat(filename)
@@ -15,29 +16,50 @@ def list_files(dir):
 	return r
 
 def analyze_directories_by_size(list_of_directories):
+	global size_of_directories_in_bytes, size_of_directories
+	size_of_directories_in_bytes = []
 	size_of_directories = []
-	analyze_by_type_of_files = []
-	size = 0
 	for directory in list_of_directories:
+		size = 0
 		dir_files = list_files(directory)
-		unique_folders = {}
 		for f in dir_files:
-			file_extension = f.split('.')[-1]
-			print f
-			print file_extension
-			if str(file_extension) != 'desktop':
-				file_size = get_size(f)
-				size += file_size
-				if not file_extension in unique_folders:
-					unique_folders[str(file_extension)] = size
-        		else:
-        			print str(file_extension)
-        			unique_folders[str(file_extension)] += size
-		size_of_directories.append(size)
-		analyze_by_type_of_files.append(unique_folders)
-		print size_of_directories
-		print analyze_by_type_of_files
+			size += get_size(f)
+		size_of_directories_in_bytes.append(size)
+		size_in_MB = humanize.naturalsize(size)
+		size_of_directories.append(size_in_MB)
+	print size_of_directories
 
+def analyze_directories_by_type(list_of_directories):
+	global info
+	info = []
+	for directory in list_of_directories:
+		files_type_sizes = {}
+		dir_files = list_files(directory)
+		for f in dir_files:
+			if len(f.split('/')[-1].split('.')) != 1:
+				file_extension = f.split('.')[-1]
+				if not file_extension in files_type_sizes and file_extension != 'desktop' :
+					files_type_sizes[str(file_extension)] = 0
+				if file_extension != 'desktop':
+					files_type_sizes[str(file_extension)]+=get_size(f)
+		info.append(files_type_sizes)
+	# Change bytes to MB
+	for directory in info:
+		for typ in directory:
+			directory[typ] = humanize.naturalsize(directory[typ])
+	# Print sizes
+	count = 0
+	for directory in info:
+		print 'Directory:  ' + str(list_of_directories[count])
+		for typ in directory:
+			print typ + ' ' + str(directory[typ])
+	# print info
+	
 list_of_directories = ['/home/abhishek/Desktop']
-#, '/home/abhishek/Documents', '/home/abhishek/Downloads', '/home/abhishek/Music']
+# list_of_directories = ['/home/abhishek/Documents/sorted_directories']	
+# list_of_directories = ['/home/abhishek/Desktop', '/home/abhishek/Documents', '/home/abhishek/Downloads', '/home/abhishek/Music']
+# analyze_directories_by_size(list_of_directories)
 analyze_directories_by_size(list_of_directories)
+analyze_directories_by_type(list_of_directories)
+# print size_of_directories_in_bytes
+# print size_of_directories
